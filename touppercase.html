@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>String Manipulation</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header class="navbar">
+        <a href="/" class="nav-brand">CpE <span>Portfolio</span></a>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/profile">Profile</a></li>
+            <li><a href="/works" class="active">Works</a></li>
+            <li><a href="/contact">Contact</a></li>
+        </ul>
+    </header>
+
+    <main class="container">
+        <div class="card">
+            <div class="card-header">
+                <h1>String Case Converter</h1>
+                <p>Converts input text to uppercase.</p>
+            </div>
+
+            <form action="/works" method="post" style="max-width: 450px;">
+                <div class="form-group">
+                    <label for="inputString">Enter String:</label>
+                    <input type="text" id="inputString" name="inputString" placeholder="Type text..." required>
+                </div>
+                <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+                    <button type="submit" class="btn btn-primary">Convert</button>
+                    <a href="/" class="btn btn-secondary">Home</a>
+                </div>
+            </form>
+
+            {% if result is not none %}
+            <div class="alert">
+                <strong>Result:</strong> {{ result }}
+            </div>
+            {% endif %}
+        </div>
+    </main>
+</body>
+</html>

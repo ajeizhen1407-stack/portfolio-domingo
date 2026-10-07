@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linked List GUI - Austhine Domingo</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header class="navbar">
+        <a href="/" class="nav-brand">CpE <span>Portfolio</span></a>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/profile">Profile</a></li>
+            <li><a href="/works" class="active">Works</a></li>
+            <li><a href="/contact">Contact</a></li>
+        </ul>
+    </header>
+
+    <main class="container">
+        <div class="card">
+            <div class="card-header">
+                <h1>Singly Linked List GUI</h1>
+                <p>Data Structures &amp; Algorithms &bull; Dynamic node operations</p>
+            </div>
+
+            <h2>List Visualization</h2>
+            <div class="list-canvas">
+                {% if items and items|length > 0 %}
+                    <span class="head-badge">HEAD &rarr;</span>
+                    {% for item in items %}
+                        <div class="node-wrapper">
+                            <div class="node-box">
+                                <div class="node-data">{{ item }}</div>
+                                <div class="node-ptr">&bull;</div>
+                            </div>
+                            <span class="node-arrow">&rarr;</span>
+                        </div>
+                    {% endfor %}
+                    <span class="null-badge">NULL</span>
+                {% else %}
+                    <p style="color: #718096; margin: 0; font-style: italic;">List is empty. Use operations below to add nodes.</p>
+                {% endif %}
+            </div>
+
+            <h2>Operations</h2>
+            <div class="ll-actions-grid">
+                <div class="action-card">
+                    <h3>1. Insert at Beginning</h3>
+                    <form action="/works/linkedlist" method="post">
+                        <input type="hidden" name="action" value="insert_beginning">
+                        <input type="text" name="value" placeholder="Node value" required>
+                        <button type="submit" class="btn btn-primary">Insert Head</button>
+                    </form>
+                </div>
+
+                <div class="action-card">
+                    <h3>2. Insert at End</h3>
+                    <form action="/works/linkedlist" method="post">
+                        <input type="hidden" name="action" value="insert_end">
+                        <input type="text" name="value" placeholder="Node value" required>
+                        <button type="submit" class="btn btn-primary">Insert Tail</button>
+                    </form>
+                </div>
+
+                <div class="action-card">
+                    <h3>3. Insert After</h3>
+                    <form action="/works/linkedlist" method="post">
+                        <input type="hidden" name="action" value="insert_after">
+                        <input type="text" name="target" placeholder="Target value" required>
+                        <input type="text" name="value" placeholder="New value" required>
+                        <button type="submit" class="btn btn-primary">Insert After</button>
+                    </form>
+                </div>
+
+                <div class="action-card">
+                    <h3>4. Remove at Beginning</h3>
+                    <form action="/works/linkedlist" method="post">
+                        <input type="hidden" name="action" value="remove_beginning">
+                        <button type="submit" class="btn btn-secondary">Remove Head</button>
+                    </form>
+                </div>
+
+                <div class="action-card">
+                    <h3>5. Remove at End</h3>
+                    <form action="/works/linkedlist" method="post">
+                        <input type="hidden" name="action" value="remove_end">
+                        <button type="submit" class="btn btn-secondary">Remove Tail</button>
+                    </form>
+                </div>
+
+                <div class="action-card">
+                    <h3>6. Remove Target</h3>
+                    <form action="/works/linkedlist" method="post">
+                        <input type="hidden" name="action" value="remove_target">
+                        <input type="text" name="target" placeholder="Target to delete" required>
+                        <button type="submit" class="btn btn-danger">Remove Target</button>
+                    </form>
+                </div>
+            </div>
+
+            <div style="margin-top: 1.5rem;">
+                <a href="/works" class="btn btn-secondary">&larr; Back to Works</a>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

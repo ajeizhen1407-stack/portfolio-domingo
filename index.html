@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Austhine Domingo</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header class="navbar">
+        <a href="/" class="nav-brand">CpE <span>Portfolio</span></a>
+        <ul>
+            <li><a href="/" class="active">Home</a></li>
+            <li><a href="/profile">Profile</a></li>
+            <li><a href="/works">Works</a></li>
+            <li><a href="/contact">Contact</a></li>
+        </ul>
+    </header>
+
+    <main class="container">
+        <div class="card">
+            <div class="card-header">
+                <h1>Engineering Programming Portfolio</h1>
+                <p>BS Computer Engineering &bull; BS CPE 2-1 &bull; Austhine Jeizhen B. Domingo</p>
+            </div>
+
+            <p>Welcome to my programming works portfolio featuring Flask web modules and interactive data structures.</p>
+
+            <h2>Laboratory Works</h2>
+            <div class="works-grid">
+                <a href="/works" class="work-card">
+                    <h3>UpperCase</h3>
+                    <p>String manipulation with HTTP POST.</p>
+                </a>
+
+                <a href="/works/area/triangle" class="work-card">
+                    <h3>Area of a Triangle</h3>
+                    <p>Calculates &frac12; &times; base &times; height.</p>
+                </a>
+
+                <a href="/works/linkedlist" class="work-card">
+                    <h3>Linked List GUI</h3>
+                    <p>Visual Singly Linked List with insert and delete.</p>
+                </a>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
