@@ -1,3 +1,4 @@
+import math
 from flask import Flask, render_template, request
 
 app = Flask(__name__)
@@ -120,6 +121,18 @@ def atriangle():
         except ValueError:
             result = "Invalid input"
     return render_template('triangle.html', result=result)
+
+
+@app.route('/works/area/circle', methods=['GET', 'POST'])
+def acircle():
+    result = None
+    if request.method == 'POST':
+        try:
+            radius = float(request.form.get('radius', 0))
+            result = round(math.pi * radius * radius, 2)
+        except ValueError:
+            result = "Invalid input"
+    return render_template('circle.html', result=result)
 
 
 @app.route('/works/linkedlist', methods=['GET', 'POST'])
