@@ -1,5 +1,7 @@
 import math
 from flask import Flask, render_template, request
+from stack import Stack
+from infix_to_postfix import process_calculator_query
 
 app = Flask(__name__)
 
@@ -86,6 +88,11 @@ my_list.insert_at_end("10")
 my_list.insert_at_end("20")
 my_list.insert_at_end("30")
 
+my_stack = Stack()
+my_stack.push("10")
+my_stack.push("20")
+my_stack.push("30")
+
 
 @app.route('/')
 def index():
@@ -102,8 +109,50 @@ def contact():
     return render_template('contact.html')
 
 
-@app.route('/works', methods=['GET', 'POST'])
+@app.route('/works')
 def works():
+    lab_works = [
+        {
+            'title': 'Uppercase Converter',
+            'description': 'Transforms input text into uppercase using a clean form-based interface.',
+            'tag': 'Text',
+            'icon': 'T',
+            'link': '/works/uppercase'
+        },
+        {
+            'title': 'Triangle Area',
+            'description': 'Computes the area of a triangle from base and height values.',
+            'tag': 'Math',
+            'icon': '△',
+            'link': '/works/area/triangle'
+        },
+        {
+            'title': 'Circle Area',
+            'description': 'Calculates the area of a circle using the radius input.',
+            'tag': 'Math',
+            'icon': '◯',
+            'link': '/works/area/circle'
+        },
+        {
+            'title': 'Linked List GUI',
+            'description': 'Visualizes a singly linked list and supports insert/delete operations.',
+            'tag': 'DSA',
+            'icon': 'LL',
+            'link': '/works/linkedlist'
+        },
+        {
+            'title': 'Stack GUI & Calculator',
+            'description': 'LIFO stack operations and infix-to-postfix conversion with live evaluation.',
+            'tag': 'DSA',
+            'icon': 'S',
+            'link': '/works/stack'
+        }
+    ]
+    return render_template('works.html', lab_works=lab_works)
+
+
+@app.route('/works/uppercase', methods=['GET', 'POST'])
+def uppercase():
     result = None
     if request.method == 'POST':
         result = request.form.get('inputString', '').upper()
@@ -156,6 +205,39 @@ def linkedlist():
             my_list.remove_target(tgt)
 
     return render_template('linkedlist.html', items=my_list.to_list())
+
+
+@app.route('/works/stack', methods=['GET', 'POST'])
+def stack():
+    message = None
+    calc_result = None
+    if request.method == 'POST':
+        action = request.form.get('action')
+        val = request.form.get('value', '').strip()
+        expression = request.form.get('expression', '').strip()
+
+        if action == 'push' and val:
+            my_stack.push(val)
+            message = {'type': 'success', 'text': f"Pushed '{val}' to the stack."}
+        elif action == 'pop':
+            popped = my_stack.pop()
+            if popped is not None:
+                message = {'type': 'success', 'text': f"Popped element: '{popped}'"}
+            else:
+                message = {'type': 'danger', 'text': 'Cannot pop: Stack is empty!'}
+        elif action == 'peek':
+            top_val = my_stack.peek()
+            if top_val is not None:
+                message = {'type': 'info', 'text': f"Top element (Peek): '{top_val}'"}
+            else:
+                message = {'type': 'danger', 'text': 'Stack is empty: No top element.'}
+        elif action == 'clear':
+            my_stack.clear()
+            message = {'type': 'secondary', 'text': 'Stack cleared.'}
+        elif action == 'calculate' and expression:
+            calc_result = process_calculator_query(expression)
+
+    return render_template('stack.html', items=my_stack.to_list(), message=message, calc_result=calc_result)
 
 
 if __name__ == "__main__":

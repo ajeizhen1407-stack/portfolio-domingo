@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stack GUI &amp; Calculator - Austhine Domingo</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header class="navbar">
+        <a href="/" class="nav-brand">CpE <span>Portfolio</span></a>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/profile">Profile</a></li>
+            <li><a href="/works" class="active">Works</a></li>
+            <li><a href="/contact">Contact</a></li>
+        </ul>
+    </header>
+
+    <main class="container">
+        <div class="card">
+            <div class="card-header">
+                <h1>Stack GUI &amp; Infix to Postfix Calculator</h1>
+                <p>Data Structures &amp; Algorithms &bull; LIFO (Last-In, First-Out) operations &amp; Expression Parsing</p>
+            </div>
+
+            {% if message %}
+                <div class="alert alert-{{ message.type }}">
+                    <strong>{{ message.text }}</strong>
+                </div>
+            {% endif %}
+
+            <h2>Stack Visualization</h2>
+            <div class="list-canvas stack-canvas">
+                {% if items and items|length > 0 %}
+                    <span class="head-badge stack-top-badge">TOP (Peek: {{ items[0] }}) &rarr;</span>
+                    {% for item in items %}
+                        <div class="node-wrapper">
+                            <div class="node-box stack-node">
+                                <div class="node-data">{{ item }}</div>
+                                <div class="node-ptr">&bull;</div>
+                            </div>
+                            {% if not loop.last %}
+                                <span class="node-arrow">&rarr;</span>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                    <span class="null-badge">BOTTOM</span>
+                {% else %}
+                    <p style="color: #718096; margin: 0; font-style: italic;">Stack is empty. Use the operations below to push elements.</p>
+                {% endif %}
+            </div>
+
+            <h2>Stack Operations</h2>
+            <div class="ll-actions-grid">
+                <div class="action-card">
+                    <h3>1. Push (Add to Top)</h3>
+                    <form action="/works/stack" method="post">
+                        <input type="hidden" name="action" value="push">
+                        <input type="text" name="value" placeholder="Element value" required>
+                        <button type="submit" class="btn btn-primary">Push Element</button>
+                    </form>
+                </div>
+
+                <div class="action-card">
+                    <h3>2. Pop (Remove from Top)</h3>
+                    <form action="/works/stack" method="post">
+                        <input type="hidden" name="action" value="pop">
+                        <button type="submit" class="btn btn-secondary">Pop Element</button>
+                    </form>
+                </div>
+
+                <div class="action-card">
+                    <h3>3. Peek (Inspect Top)</h3>
+                    <form action="/works/stack" method="post">
+                        <input type="hidden" name="action" value="peek">
+                        <button type="submit" class="btn btn-primary">Peek Top</button>
+                    </form>
+                </div>
+
+                <div class="action-card">
+                    <h3>4. Clear Stack</h3>
+                    <form action="/works/stack" method="post">
+                        <input type="hidden" name="action" value="clear">
+                        <button type="submit" class="btn btn-danger">Clear Stack</button>
+                    </form>
+                </div>
+            </div>
+
+            <hr style="margin: 2rem 0; border: none; border-top: 2px solid #edf2f7;">
+
+            <div class="card-header" style="border: none; padding-bottom: 0; margin-bottom: 0.8rem;">
+                <h2>Infix to Postfix Calculator</h2>
+                <p>Convert any infix expression to Reverse Polish Notation (RPN) and evaluate it step-by-step using a custom modular Stack.</p>
+            </div>
+
+            <form action="/works/stack" method="post" style="margin-bottom: 1.5rem;">
+                <input type="hidden" name="action" value="calculate">
+                <div class="form-group">
+                    <label for="expression">Enter Infix Expression:</label>
+                    <input type="text" id="expression" name="expression" placeholder="e.g. (A + B) * (C - D)   or   3 + 5 * (2 - 8) ^ 2" value="{{ calc_result.infix if calc_result else '' }}" required>
+                </div>
+                <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+                    <button type="submit" class="btn btn-primary">Convert &amp; Calculate</button>
+                    <button type="button" class="btn btn-secondary" onclick="document.getElementById('expression').value='(A + B) * (C - D)';">Sample 1 (Algebraic)</button>
+                    <button type="button" class="btn btn-secondary" onclick="document.getElementById('expression').value='3 + 5 * (2 - 8) ^ 2';">Sample 2 (Math)</button>
+                    <button type="button" class="btn btn-secondary" onclick="document.getElementById('expression').value='100 / (5 + 5) * 2';">Sample 3 (Precedence)</button>
+                </div>
+            </form>
+
+            {% if calc_result %}
+                {% if calc_result.success %}
+                    <div class="calc-results-card" style="background: #f8fafc; border: 1.5px solid #cbd5e0; border-radius: 10px; padding: 1.25rem; margin-top: 1rem;">
+                        <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem;">
+                            <div style="flex: 1; min-width: 200px; background: #fff; padding: 0.85rem; border-radius: 8px; border: 1px solid #e2e8f0;">
+                                <strong style="color: #718096; font-size: 0.85rem; display: block;">INFIX EXPRESSION:</strong>
+                                <span style="font-size: 1.15rem; font-weight: 700; color: #2c3e50;">{{ calc_result.infix }}</span>
+                            </div>
+                            <div style="flex: 1; min-width: 200px; background: #fff; padding: 0.85rem; border-radius: 8px; border: 1px solid #e2e8f0;">
+                                <strong style="color: #718096; font-size: 0.85rem; display: block;">POSTFIX (RPN) NOTATION:</strong>
+                                <span style="font-size: 1.15rem; font-weight: 700; color: #2a5298;">{{ calc_result.postfix }}</span>
+                            </div>
+                            {% if calc_result.is_numeric %}
+                            <div style="flex: 1; min-width: 200px; background: #ebf8ff; padding: 0.85rem; border-radius: 8px; border: 1.5px solid #63b3ed;">
+                                <strong style="color: #2b6cb0; font-size: 0.85rem; display: block;">EVALUATED RESULT:</strong>
+                                <span style="font-size: 1.25rem; font-weight: 800; color: #1a365d;">{{ calc_result.result }}</span>
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <h3>Conversion Trace (Shunting-yard Algorithm)</h3>
+                        <div style="overflow-x: auto; margin-top: 0.5rem;">
+                            <table class="info-table" style="background: #fff; border-radius: 8px; overflow: hidden;">
+                                <thead>
+                                    <tr style="background: #edf2f7;">
+                                        <th style="width: 8%;">Step</th>
+                                        <th style="width: 12%;">Token</th>
+                                        <th style="width: 32%;">Action</th>
+                                        <th style="width: 24%;">Stack State</th>
+                                        <th style="width: 24%;">Postfix Output</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for s in calc_result.steps %}
+                                    <tr>
+                                        <td><strong>{{ s.step }}</strong></td>
+                                        <td><code>{{ s.token }}</code></td>
+                                        <td>{{ s.action }}</td>
+                                        <td><code>{{ s.stack }}</code></td>
+                                        <td><code>{{ s.output }}</code></td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        {% if calc_result.is_numeric and calc_result.eval_steps %}
+                        <h3 style="margin-top: 1.5rem;">Postfix Evaluation Trace (Stack Computation)</h3>
+                        <div style="overflow-x: auto; margin-top: 0.5rem;">
+                            <table class="info-table" style="background: #fff; border-radius: 8px; overflow: hidden;">
+                                <thead>
+                                    <tr style="background: #edf2f7;">
+                                        <th style="width: 10%;">Step</th>
+                                        <th style="width: 15%;">Token Scanned</th>
+                                        <th style="width: 45%;">Operation</th>
+                                        <th style="width: 30%;">Evaluation Stack</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for es in calc_result.eval_steps %}
+                                    <tr>
+                                        <td><strong>{{ es.step }}</strong></td>
+                                        <td><code>{{ es.token }}</code></td>
+                                        <td>{{ es.action }}</td>
+                                        <td><code>{{ es.stack }}</code></td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        {% endif %}
+                    </div>
+                {% else %}
+                    <div class="alert alert-danger">
+                        <strong>Error:</strong> {{ calc_result.error }}
+                    </div>
+                {% endif %}
+            {% endif %}
+
+            <div style="margin-top: 1.5rem; display: flex; gap: 0.5rem;">
+                <a href="/works" class="btn btn-secondary">&larr; Back to Works</a>
+                <a href="/works/linkedlist" class="btn btn-primary">Go to Linked List GUI &rarr;</a>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

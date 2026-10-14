@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Works - Austhine Domingo</title>
+    <meta name="description" content="Laboratory works portfolio featuring Flask web modules and interactive data structures.">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header class="navbar">
+        <a href="/" class="nav-brand">CpE <span>Portfolio</span></a>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/profile">Profile</a></li>
+            <li><a href="/works" class="active">Works</a></li>
+            <li><a href="/contact">Contact</a></li>
+        </ul>
+    </header>
+
+    <main class="container">
+        <div class="card">
+            <div class="works-header">
+                <h1>Laboratory Works</h1>
+                <p>Interactive Flask web modules &amp; data structure implementations for Data Structures &amp; Algorithms.</p>
+            </div>
+
+            <div class="works-grid">
+                <a href="/works/uppercase" class="work-card" id="work-uppercase">
+                    <span class="card-number">Lab 01</span>
+                    <span class="card-icon">🔤</span>
+                    <h3>String Case Converter</h3>
+                    <p>String manipulation with HTTP POST — converts input text to uppercase.</p>
+                    <span class="card-tag">Flask &bull; POST</span>
+                </a>
+
+                <a href="/works/area/triangle" class="work-card" id="work-triangle">
+                    <span class="card-number">Lab 02</span>
+                    <span class="card-icon">📐</span>
+                    <h3>Area of a Triangle</h3>
+                    <p>Calculates &frac12; &times; base &times; height with form inputs.</p>
+                    <span class="card-tag">Math &bull; Flask</span>
+                </a>
+
+                <a href="/works/area/circle" class="work-card" id="work-circle">
+                    <span class="card-number">Lab 03</span>
+                    <span class="card-icon">⭕</span>
+                    <h3>Area of a Circle</h3>
+                    <p>Computes &pi; &times; radius&sup2; with a clean interactive form.</p>
+                    <span class="card-tag">Math &bull; Flask</span>
+                </a>
+
+                <a href="/works/linkedlist" class="work-card" id="work-linkedlist">
+                    <span class="card-number">Lab 04</span>
+                    <span class="card-icon">🔗</span>
+                    <h3>Linked List GUI</h3>
+                    <p>Visual singly linked list with insert at head/tail, insert after, and delete operations.</p>
+                    <span class="card-tag">DSA &bull; Interactive</span>
+                </a>
+
+                <a href="/works/stack" class="work-card" id="work-stack">
+                    <span class="card-number">Lab 05</span>
+                    <span class="card-icon">📚</span>
+                    <h3>Stack GUI &amp; Calculator</h3>
+                    <p>LIFO stack operations and Infix to Postfix converter with step-by-step tracing.</p>
+                    <span class="card-tag">DSA &bull; Shunting-yard</span>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>Built with <span class="heart">♥</span> by Austhine Jeizhen B. Domingo &bull; BS CPE 2-1</p>
+    </footer>
+</body>
+</html>
