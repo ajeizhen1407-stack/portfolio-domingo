@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Queue GUI - Austhine Domingo</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header class="navbar">
+        <a href="/" class="nav-brand">CpE <span>Portfolio</span></a>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/saved-works">Saved Works</a></li>
+            <li><a href="/profile">Profile</a></li>
+            <li><a href="/works" class="active">Works</a></li>
+            <li><a href="/contact">Contact</a></li>
+        </ul>
+    </header>
+
+    <main class="container">
+        <div class="card">
+            <div class="card-header">
+                <h1>Queue GUI</h1>
+                <p>Data Structures &amp; Algorithms &bull; FIFO (First-In, First-Out) operations</p>
+            </div>
+
+            {% if message %}
+                <div class="alert alert-{{ message.type }}">
+                    <strong>{{ message.text }}</strong>
+                </div>
+            {% endif %}
+
+            <h2>Queue Visualization</h2>
+            <div class="list-canvas">
+                {% if items %}
+                    <span class="head-badge">FRONT &rarr;</span>
+                    {% for item in items %}
+                        <div class="node-wrapper">
+                            <div class="node-box">
+                                <div class="node-data">{{ item }}</div>
+                                <div class="node-ptr">&bull;</div>
+                            </div>
+                            {% if not loop.last %}
+                                <span class="node-arrow">&rarr;</span>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                    <span class="null-badge">REAR</span>
+                {% else %}
+                    <p style="color: #718096; margin: 0; font-style: italic;">Queue is empty. Enqueue an element to get started.</p>
+                {% endif %}
+            </div>
+
+            <h2>Queue Operations</h2>
+            <div class="ll-actions-grid">
+                <div class="action-card">
+                    <h3>1. Enqueue (Add to Rear)</h3>
+                    <form action="/works/queue" method="post">
+                        <input type="hidden" name="action" value="enqueue">
+                        <input type="text" name="value" placeholder="Element value" required>
+                        <button type="submit" class="btn btn-primary">Enqueue Element</button>
+                    </form>
+                </div>
+
+                <div class="action-card">
+                    <h3>2. Dequeue (Remove from Front)</h3>
+                    <form action="/works/queue" method="post">
+                        <input type="hidden" name="action" value="dequeue">
+                        <button type="submit" class="btn btn-secondary">Dequeue Element</button>
+                    </form>
+                </div>
+
+                <div class="action-card">
+                    <h3>3. Peek (Inspect Front)</h3>
+                    <form action="/works/queue" method="post">
+                        <input type="hidden" name="action" value="peek">
+                        <button type="submit" class="btn btn-primary">Peek Front</button>
+                    </form>
+                </div>
+
+                <div class="action-card">
+                    <h3>4. Clear Queue</h3>
+                    <form action="/works/queue" method="post">
+                        <input type="hidden" name="action" value="clear">
+                        <button type="submit" class="btn btn-danger">Clear Queue</button>
+                    </form>
+                </div>
+            </div>
+
+            <div style="margin-top: 1.5rem;">
+                <a href="/works" class="btn btn-secondary">&larr; Back to Works</a>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

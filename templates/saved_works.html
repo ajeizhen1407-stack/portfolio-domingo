@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saved Works - Austhine Domingo</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header class="navbar">
+        <a href="/" class="nav-brand">CpE <span>Portfolio</span></a>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/saved-works" class="active">Saved Works</a></li>
+            <li><a href="/profile">Profile</a></li>
+            <li><a href="/works">Works</a></li>
+            <li><a href="/contact">Contact</a></li>
+        </ul>
+    </header>
+
+    <main class="container">
+        <div class="card">
+            <div class="card-header">
+                <h1>Saved Works</h1>
+                <p>Lab submissions are saved here automatically and kept on this server.</p>
+            </div>
+
+            {% if message %}
+                <div class="alert alert-{{ message.type }}" role="status">
+                    <strong>{{ message.text }}</strong>
+                </div>
+            {% endif %}
+
+            <h2>Your Saved Works</h2>
+            {% if works %}
+                <div class="saved-works-list">
+                    {% for work in works %}
+                        <article class="action-card">
+                            <h3>{{ work.title }}</h3>
+                            <p style="white-space: pre-wrap; overflow-wrap: anywhere;">{{ work.description }}</p>
+                            <p style="margin-top: 0.75rem; color: var(--text-muted); font-size: 0.8rem;">
+                                Saved {{ work.created_at }}
+                            </p>
+                            <form action="{{ url_for('saved_works') }}" method="post" style="margin-top: 1rem;">
+                                <input type="hidden" name="action" value="delete">
+                                <input type="hidden" name="work_id" value="{{ work.id }}">
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        </article>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p style="color: var(--text-muted);">No saved works yet. Submit work in any lab and it will appear here.</p>
+            {% endif %}
+        </div>
+    </main>
+</body>
+</html>
